@@ -7,7 +7,7 @@ int main()
     {
         for(c=1;c<=1;c++)
         {
-            cout<<"a b c d";
+            cout<<"a b cd";
         }
         cout<<endl;
     }
