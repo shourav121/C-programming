@@ -3,59 +3,45 @@
 
 using namespace std;
 
-void inputMatrix(vector<vector<int>>& matrix, int rows, int cols) {
-    for (int i = 0; i < rows; ++i) {
-        vector<int> row(cols);
-        for (int j = 0; j < cols; ++j) {
-            cin >> row[j];
-        }
-        matrix.push_back(row);
+// Function to delete an element from the array
+void deleteElement(vector<int>& arr, int position) {
+    if (position < 0 || position >= arr.size()) {
+        cout << "Invalid position!" << endl;
+        return;
     }
+    arr.erase(arr.begin() + position);
 }
 
-void printMatrix(const vector<vector<int>>& matrix) {
-    for (const auto& row : matrix) {
-        for (int val : row) {
-            cout << val << " ";
-        }
-        cout << endl;
+// Function to print the array
+void printArray(const vector<int>& arr) {
+    for (int elem : arr) {
+        cout << elem << " ";
     }
-}
-
-vector<vector<int>> multiplyMatrices(const vector<vector<int>>& A, const vector<vector<int>>& B, int m, int n, int p) {
-    vector<vector<int>> result(m, vector<int>(p, 0));
-
-    for (int i = 0; i < m; ++i) {
-        for (int j = 0; j < p; ++j) {
-            for (int k = 0; k < n; ++k) {
-                result[i][j] += A[i][k] * B[k][j];
-            }
-        }
-    }
-
-    return result;
+    cout << endl;
 }
 
 int main() {
-    int m, n, p;
-    cout << "Enter the number of rows and columns of matrix A (m and n): ";
-    cin >> m >> n;
-    cout << "Enter the number of columns of matrix B (p): ";
-    cin >> p;
+    int n;
+    cout << "Enter the number of elements in the array: ";
+    cin >> n;
 
-    vector<vector<int>> A;
-    vector<vector<int>> B;
+    vector<int> arr(n);
+    cout << "Enter the elements of the array:" << endl;
+    for (int i = 0; i < n; ++i) {
+        cin >> arr[i];
+    }
 
-    cout << "Enter the elements of matrix A:" << endl;
-    inputMatrix(A, m, n);
+    int position;
+    cout << "Enter the position of the element to be deleted: ";
+    cin >> position;
 
-    cout << "Enter the elements of matrix B:" << endl;
-    inputMatrix(B, n, p);
+    cout << "Original array: ";
+    printArray(arr);
 
-    vector<vector<int>> result = multiplyMatrices(A, B, m, n, p);
+    deleteElement(arr, position);
 
-    cout << "Resulting matrix after multiplication:" << endl;
-    printMatrix(result);
+    cout << "Array after deletion: ";
+    printArray(arr);
 
     return 0;
 }
