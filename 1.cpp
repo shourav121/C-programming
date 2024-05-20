@@ -1,47 +1,89 @@
 #include <iostream>
-#include <vector>
-
+#include <fstream>
+#include <string>
 using namespace std;
 
-// Function to delete an element from the array
-void deleteElement(vector<int>& arr, int position) {
-    if (position < 0 || position >= arr.size()) {
-        cout << "Invalid position!" << endl;
-        return;
-    }
-    arr.erase(arr.begin() + position);
+void displayMenu() {
+    cout << "===== Word Editor Menu =====" << endl;
+    cout << "1. Create a new document" << endl;
+    cout << "2. Open an existing document" << endl;
+    cout << "3. Edit document" << endl;
+    cout << "4. Save the document" << endl;
+    cout << "5. Exit" << endl;
+    cout << "============================" << endl;
 }
 
-// Function to print the array
-void printArray(const vector<int>& arr) {
-    for (int elem : arr) {
-        cout << elem << " ";
+void createDocument() {
+    string content;
+    cout << "Enter the content of the document. Enter 'EOF' on a new line to finish." << endl;
+    string line;
+    while (getline(cin, line) && line != "EOF") {
+        content += line + "\n";
     }
-    cout << endl;
+    ofstream outfile("document.txt");
+    outfile << content;
+    cout << "Document created successfully." << endl;
+}
+
+void openDocument(string& content) {
+    ifstream infile("document.txt");
+    if (!infile) {
+        cerr << "Error opening document!" << endl;
+        return;
+    }
+    content = "";
+    string line;
+    while (getline(infile, line)) {
+        content += line + "\n";
+    }
+    cout << "Document opened successfully." << endl;
+    infile.close();
+}
+
+void editDocument(string& content) {
+    cout << "Enter new content of the document. Enter 'EOF' on a new line to finish." << endl;
+    string line;
+    while (getline(cin, line) && line != "EOF") {
+        content += line + "\n";
+    }
+}
+
+void saveDocument(const string& content) {
+    ofstream outfile("document.txt");
+    outfile << content;
+    cout << "Document saved successfully." << endl;
 }
 
 int main() {
-    int n;
-    cout << "Enter the number of elements in the array: ";
-    cin >> n;
-
-    vector<int> arr(n);
-    cout << "Enter the elements of the array:" << endl;
-    for (int i = 0; i < n; ++i) {
-        cin >> arr[i];
-    }
-
-    int position;
-    cout << "Enter the position of the element to be deleted: ";
-    cin >> position;
-
-    cout << "Original array: ";
-    printArray(arr);
-
-    deleteElement(arr, position);
-
-    cout << "Array after deletion: ";
-    printArray(arr);
-
+    string documentContent;
+    int choice;
+    
+    do {
+        displayMenu();
+        cout << "Enter your choe: ";
+        cin >> choice;
+        cin.ignore(); // Clear the newline character from the buffer
+        switch (choice) {
+            case 1:
+                createDocument();
+                break;
+            case 2:
+                openDocument(documentContent);
+                break;
+            case 3:
+                editDocument(documentContent);
+                break;
+            case 4:
+                saveDocument(documentContent);
+                break;
+            case 5:
+                cout << "Exiting... Thank you!" << endl;
+                break;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+                break;
+        }
+    } while (choice != 5);
+    
     return 0;
 }
