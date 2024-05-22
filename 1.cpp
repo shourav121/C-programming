@@ -1,89 +1,56 @@
 #include <iostream>
-#include <fstream>
-#include <string>
+#include <vector>
+
 using namespace std;
 
-void displayMenu() {
-    cout << "===== Word Editor Menu =====" << endl;
-    cout << "1. Create a new document" << endl;
-    cout << "2. Open an existing document" << endl;
-    cout << "3. Edit document" << endl;
-    cout << "4. Save the document" << endl;
-    cout << "5. Exit" << endl;
-    cout << "============================" << endl;
-}
-
-void createDocument() {
-    string content;
-    cout << "Enter the content of the document. Enter 'EOF' on a new line to finish." << endl;
-    string line;
-    while (getline(cin, line) && line != "EOF") {
-        content += line + "\n";
+// Function to print a matrix
+void printMatrix(const vector<vector<int>>& matrix) {
+    for (const auto& row : matrix) {
+        for (const auto& elem : row) {
+            cout << elem << " ";
+        }
+        cout << endl;
     }
-    ofstream outfile("document.txt");
-    outfile << content;
-    cout << "Document created successfully." << endl;
-}
-
-void openDocument(string& content) {
-    ifstream infile("document.txt");
-    if (!infile) {
-        cerr << "Error opening document!" << endl;
-        return;
-    }
-    content = "";
-    string line;
-    while (getline(infile, line)) {
-        content += line + "\n";
-    }
-    cout << "Document opened successfully." << endl;
-    infile.close();
-}
-
-void editDocument(string& content) {
-    cout << "Enter new content of the document. Enter 'EOF' on a new line to finish." << endl;
-    string line;
-    while (getline(cin, line) && line != "EOF") {
-        content += line + "\n";
-    }
-}
-
-void saveDocument(const string& content) {
-    ofstream outfile("document.txt");
-    outfile << content;
-    cout << "Document saved successfully." << endl;
 }
 
 int main() {
-    string documentContent;
-    int choice;
-    
-    do {
-        displayMenu();
-        cout << "Enter your choe: ";
-        cin >> choice;
-        cin.ignore(); // Clear the newline character from the buffer
-        switch (choice) {
-            case 1:
-                createDocument();
-                break;
-            case 2:
-                openDocument(documentContent);
-                break;
-            case 3:
-                editDocument(documentContent);
-                break;
-            case 4:
-                saveDocument(documentContent);
-                break;
-            case 5:
-                cout << "Exiting... Thank you!" << endl;
-                break;
-            default:
-                cout << "Invalid choice. Please try again." << endl;
-                break;
+    int m, n, p;
+    cout << "Enter the number of rows for matrix A: ";
+    cin >> m;
+    cout << "Enter the number of columns for matrix A (and rows for matrix B): ";
+    cin >> n;
+    cout << "Enter the number of columns for matrix B: ";
+    cin >> p;
+
+    vector<vector<int>> A(m, vector<int>(n));
+    vector<vector<int>> B(n, vector<int>(p));
+    vector<vector<int>> C(m, vector<int>(p, 0));  // Result matrix initialized to 0
+
+    cout << "Enter elements of matrix A (" << m << "x" << n << "):" << endl;
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < n; ++j) {
+            cin >> A[i][j];
         }
-    } while (choice != 5);
-    
+    }
+
+    cout << "Enter eleme of matrix B (" << n << "x" << p << "):" << endl;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < p; ++j) {
+            cin >> B[i][j];
+        }
+    }
+
+    // Matrix multiplication
+    for (int i = 0; i < m; ++i) {
+        for (int j = 0; j < p; ++j) {
+            for (int k = 0; k < n; ++k) {
+                C[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+
+    cout << "Resultant matrix C (" << m << "x" << p << "):" << endl;
+    printMatrix(C);
+
     return 0;
 }
