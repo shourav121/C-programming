@@ -26,7 +26,7 @@ int main() {
     vector<vector<int>> B(n, vector<int>(p));
     vector<vector<int>> C(m, vector<int>(p, 0));  // Result matrix initialized to 0
 
-    cout << "Enter elements of matrix A (" << m << "x" << n << "):" << endl;
+    cout << "Enter eleof matrix A (" << m << "x" << n << "):" << endl;
     for (int i = 0; i < m; ++i) {
         for (int j = 0; j < n; ++j) {
             cin >> A[i][j];
