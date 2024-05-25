@@ -6,6 +6,7 @@ int main()
     int count=0;
     for(int i=0;i<8;i++)
     {
+        cout<<"hh";
         cout<<arr[6];
         count++;
     }
