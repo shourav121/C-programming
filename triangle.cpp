@@ -22,7 +22,7 @@ int main()
     }
     else
     {
-        cout<<"scalane";
+        cout<<"scalanhe";
     }
     return 0;
 }
